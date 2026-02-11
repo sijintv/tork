@@ -1,65 +1,51 @@
-# git-tork
+## Quick Start
 
-A terminal-based Git client built with React and Ink.
+Run instantly with npx:
 
-## Features
+```bash
+npx git-tork
+```
 
--   **Interactive Sidebar**: Navigate branches, remotes, and commits.
--   **Branch Management**: Checkout, create, and view branches. Space to toggle sections.
--   **Commit History**: View commit logs graph.
--   **File Staging**: Stage/Unstage files individually.
--   **Diff Viewer**: View diffs of changed files with syntax highlighting.
--   **Commit & Amend**: Commit changes and amend the last commit.
--   **Push/Pull**: Push and pull changes with hotkeys.
-
-## Installation
+Or install globally:
 
 ```bash
 npm install -g git-tork
-```
-
-## Usage
-
-Run the tool in any git repository:
-
-```bash
 git-tork
 ```
 
-### Keybindings
+## Overview
 
--   **Navigation**: `Up`/`Down` arrows to navigate lists.
--   **Sidebar**:
-    -   `Enter`: Checkout branch / Select item.
-    -   `Space`: Toggle section collapse (Branches/Remotes).
-    -   `r`: Refresh branch list.
-    -   `n`: Create new branch (when "New Branch" selected).
--   **Status View**:
-    -   `s`: Stage file.
-    -   `u`: Unstage file.
-    -   `c`: Enter commit mode.
-    -   `a`: Toggle "Amend Last Commit".
--   **General**:
-    -   `Tab` / `Shift+Tab`: Switch focus between panels (Sidebar, Status/Diff, etc).
-    -   `p`: Push.
-    -   `l`: Pull.
-    -   `q`: Quit.
+A keyboard-first Git client for your terminal.
+
+## Keybindings
+
+| Key | Action |
+| --- | --- |
+| `Up` / `Down` | Navigate lists |
+| `Tab` | Switch focus (Sidebar ↔ Main View) |
+| `p` / `l` | Push / Pull |
+| `q` | Quit |
+
+**Sidebar**
+- `Enter`: Checkout branch
+- `Space`: Toggle folder collapse
+- `r`: Refresh list
+- `n`: New branch
+
+**Changes View**
+- `s`: Stage file
+- `u`: Unstage file
+- `c`: Commit changes
+- `a`: Toggle "Amend"
 
 ## Development
 
-1.  Clone the repository.
-2.  Install dependencies:
-    ```bash
-    npm install
-    ```
-3.  Build and watch:
-    ```bash
-    npm run dev
-    ```
-4.  Run locally:
-    ```bash
-    npm start
-    ```
+```bash
+git clone https://github.com/sijintv/git-tork.git
+cd git-tork
+npm install
+npm run dev
+```
 
 ## License
 

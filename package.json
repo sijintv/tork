@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sijintv/git-tork.git"
+    "url": "git+https://github.com/sijintv/tork.git"
   },
   "keywords": [
     "git",
@@ -24,6 +24,11 @@
   ],
   "author": "Sijin T V",
   "license": "MIT",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "type": "module",
   "devDependencies": {
     "@types/ink": "^0.5.2",
