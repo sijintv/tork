@@ -5,6 +5,7 @@ import ScrollableList from './ScrollableList.js';
 import { useWindowSize } from '../hooks/useWindowSize.js';
 
 import sliceAnsi from 'slice-ansi';
+import stringWidth from 'string-width';
 
 interface CommitListProps {
     isActive: boolean;
@@ -41,14 +42,18 @@ const CommitList: React.FC<CommitListProps> = ({ isActive, onSelectCommit }) => 
                 height={rows ? Math.max(2, rows - 9) : 10}
                 renderItem={(item, isSelected) => {
                     // Manually truncate to avoid Ink's wrapping issues with complex ANSI codes
-                    const truncated = sliceAnsi(item, 0, availableWidth);
+                    let content = item;
+                    if (stringWidth(item) > availableWidth) {
+                        content = sliceAnsi(item, 0, availableWidth - 1) + '…';
+                    }
+
                     return (
                         <Box width={availableWidth}>
                             <Text
                                 backgroundColor={isSelected ? 'blue' : undefined}
                                 wrap="truncate"
                             >
-                                {truncated}
+                                {content}
                             </Text>
                         </Box>
                     );
