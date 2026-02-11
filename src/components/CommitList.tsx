@@ -11,7 +11,11 @@ interface CommitListProps {
 
 const CommitList: React.FC<CommitListProps> = ({ isActive, onSelectCommit }) => {
     const [lines, setLines] = useState<string[]>([]);
-    const { rows } = useWindowSize();
+    const { rows, columns } = useWindowSize(); // Get columns
+
+    // Sidebar width is 35. Border is 2. Scrollbar might be 1.
+    // Let's safe-guard with a bit more padding.
+    const availableWidth = Math.max(0, columns - 38);
 
     useEffect(() => {
         const fetchLog = async () => {
@@ -34,9 +38,14 @@ const CommitList: React.FC<CommitListProps> = ({ isActive, onSelectCommit }) => 
                 onSelect={handleSelect}
                 height={rows ? Math.max(2, rows - 9) : 10}
                 renderItem={(item, isSelected) => (
-                    <Text backgroundColor={isSelected ? 'blue' : undefined} wrap="truncate">
-                        {item}
-                    </Text>
+                    <Box width={availableWidth}>
+                        <Text
+                            backgroundColor={isSelected ? 'blue' : undefined}
+                            wrap="truncate"
+                        >
+                            {item}
+                        </Text>
+                    </Box>
                 )}
             />
         </Box>
