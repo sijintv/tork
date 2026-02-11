@@ -15,7 +15,7 @@ const CommitList: React.FC<CommitListProps> = ({ isActive, onSelectCommit }) => 
 
     // Sidebar width is 35. Border is 2. Scrollbar might be 1.
     // Let's safe-guard with a bit more padding.
-    const availableWidth = Math.max(0, columns - 38);
+    const availableWidth = Math.max(0, columns - 42);
 
     useEffect(() => {
         const fetchLog = async () => {
