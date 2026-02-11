@@ -4,6 +4,8 @@ import { getGraphLog } from '../git.js';
 import ScrollableList from './ScrollableList.js';
 import { useWindowSize } from '../hooks/useWindowSize.js';
 
+import sliceAnsi from 'slice-ansi';
+
 interface CommitListProps {
     isActive: boolean;
     onSelectCommit: (hash: string) => void;
@@ -37,16 +39,20 @@ const CommitList: React.FC<CommitListProps> = ({ isActive, onSelectCommit }) => 
                 isActive={isActive}
                 onSelect={handleSelect}
                 height={rows ? Math.max(2, rows - 9) : 10}
-                renderItem={(item, isSelected) => (
-                    <Box width={availableWidth}>
-                        <Text
-                            backgroundColor={isSelected ? 'blue' : undefined}
-                            wrap="truncate"
-                        >
-                            {item}
-                        </Text>
-                    </Box>
-                )}
+                renderItem={(item, isSelected) => {
+                    // Manually truncate to avoid Ink's wrapping issues with complex ANSI codes
+                    const truncated = sliceAnsi(item, 0, availableWidth);
+                    return (
+                        <Box width={availableWidth}>
+                            <Text
+                                backgroundColor={isSelected ? 'blue' : undefined}
+                                wrap="truncate"
+                            >
+                                {truncated}
+                            </Text>
+                        </Box>
+                    );
+                }}
             />
         </Box>
     );
