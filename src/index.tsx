@@ -17,10 +17,32 @@ const cli = meow(`
     importMeta: import.meta,
 });
 
-const Init = () => {
-    const [error, setError] = useState<string | null>(null);
-    const [ready, setReady] = useState(false);
+// Check if target is a git repo before starting the UI
+const targetPath = cli.input[0] ? path.resolve(cli.input[0]) : process.cwd();
 
+try {
+    setGitDirectory(targetPath);
+    const isRepo = await checkIsRepo();
+
+    if (!isRepo) {
+        console.error(`\x1b[31mError: '${targetPath}' is not a valid git repository.\x1b[0m`);
+        console.error('Please run git-tork inside a git repository or provide a path to one.');
+        process.exit(1);
+    }
+
+    try {
+        process.chdir(targetPath);
+    } catch (err) {
+        // ignore if we can't chdir, usage of setGitDirectory should handle it mostly, 
+        // but chdir helps with relative path commands if any
+    }
+
+} catch (e: any) {
+    console.error(`\x1b[31mError initializing: ${e.message}\x1b[0m`);
+    process.exit(1);
+}
+
+const Init = () => {
     useEffect(() => {
         // Enter alternate screen buffer
         process.stdout.write('\x1b[?1049h');
@@ -30,42 +52,6 @@ const Init = () => {
             process.stdout.write('\x1b[?1049l');
         };
     }, []);
-
-    useEffect(() => {
-        const init = async () => {
-            const targetPath = cli.input[0] ? path.resolve(cli.input[0]) : process.cwd();
-
-            try {
-                setGitDirectory(targetPath);
-                const isRepo = await checkIsRepo();
-                if (!isRepo) {
-                    setError(`Error: '${targetPath}' is not a valid git repository.`);
-                } else {
-                    try {
-                        process.chdir(targetPath);
-                    } catch (err) {
-                        // ignore
-                    }
-                    setReady(true);
-                }
-            } catch (e: any) {
-                setError(`Error initializing: ${e.message}`);
-            }
-        };
-        init();
-    }, []);
-
-    if (error) {
-        return (
-            <Box borderStyle="single" borderColor="red">
-                <Text color="red">{error}</Text>
-            </Box>
-        );
-    }
-
-    if (!ready) {
-        return <Text>Loading...</Text>;
-    }
 
     return <App />;
 };
