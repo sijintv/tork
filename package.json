@@ -1,6 +1,6 @@
 {
   "name": "git-tork",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A terminal-based Git client built with React and Ink.",
   "main": "index.js",
   "bin": {
